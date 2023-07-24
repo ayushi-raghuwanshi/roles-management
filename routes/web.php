@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
@@ -54,4 +55,11 @@ Route::get('profile',[ProfileController::class,'index'])->name('profile');
 Route::post('updateProfile',[ProfileController::class,'updateProfile'])->name('updateProfile');
 Route::post('changeSettings',[ProfileController::class,'changeSettings'])->name('changeSettings');
 Route::post('changePassword',[ProfileController::class,'changePassword'])->name('changePassword');
+
+//task route
+Route::get('task',[TaskController::class,'index'])->name('task');
+Route::get('addtask',[TaskController::class,'createTask'])->name('addtask');
+Route::post('storeTask',[TaskController::class,'storeTask'])->name('storeTask');
+Route::get('editTask/{id}',[TaskController::class,'editTask'])->name('editTask');
+Route::post('updateTask',[TaskController::class,'updateTask'])->name('updateTask');
 });

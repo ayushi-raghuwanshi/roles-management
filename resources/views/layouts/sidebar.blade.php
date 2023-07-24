@@ -50,6 +50,20 @@
             </ul>
         </li>
         @endcan
+        @can('view-task')
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Task Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{route('task')}}">
+                        <i class="bi bi-circle"></i><span>Tasks</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @endcan
     </ul>
 
 </aside>

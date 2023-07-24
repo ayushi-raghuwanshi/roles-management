@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class,'user_subusers','user_id','sub_user_id')->whereDate('users.created_at',date('Y-m-d'));
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class,'assigned_to');
+    }
 }

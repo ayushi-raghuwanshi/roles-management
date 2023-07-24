@@ -13,7 +13,7 @@
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>{{$users[0]->todaysubusers_count ?? 0}}</h6>
+                                    <h6>{{$users->todaysubusers_count ?? 0}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>{{$users[0]->subusers_count ?? 0}}</h6>
+                                    <h6>{{$users->subusers_count ?? 0}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -37,14 +37,62 @@
                 <div class="col-xxl-4 col-md-6">
                     <div class="card info-card sales-card">
                         <div class="card-body">
-                            <h5 class="card-title">All <span>| Users</span></h5>
+                            <h5 class="card-title">Total <span>| Tasks</span></h5>
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-people"></i>
+                                    <i class="bi bi-calendar-plus"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>{{$total_users ?? 0}}</h6>
+                                    <h6>{{$users->tasks_count ?? 0}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Completed <span>| Tasks</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>{{$users->completed_task ?? 0}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total <span>| Pending Tasks</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-calendar-week"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>{{$users->pending_task ?? 0}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total <span>| Inprogress Tasks</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-calendar-event"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>{{$users->inprogress_task ?? 0}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +115,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($users[0]->todaysubusers as $user)
+                                    @forelse ($users->todaysubusers as $user)
                                         <tr>
                                             <th scope="row">{{$user->id ?? ''}}</th>
                                             <td>{{$user->name ?? ''}}</td>
