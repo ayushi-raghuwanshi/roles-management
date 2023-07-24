@@ -29,10 +29,7 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
         $user->roles()->sync($request->get('roles',[]));
-        $sub_user = new UserSubuser();
-        $sub_user->user_id = Auth::id();
-        $sub_user->sub_user_id = $user->id;
-        $sub_user->save();
+        \Auth::user()->subusers()->attach($user->id);
         return redirect()->route('users')->with('success','User Created Successfully!');
     }
 

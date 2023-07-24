@@ -69,3 +69,14 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 https://apalfrey.github.io/select2-bootstrap-5-theme/getting-started/download-install/
 https://onlinewebtutorblog.com/laravel-8-datatable-ajax-pagination-with-search-and-sort/
 https://www.nicesnippets.com/blog/laravel-datatables-pagination-with-search-and-sort
+
+git steps:
+make new repository in git hub
+Git Initilization:
+
+$ git init
+$ git remote add <name-of-remote> <remote-path>
+ex: git remote add origin https://github.com/youraccount/my-app.git
+$ git add .
+$ git commit -m "Initial Commit"
+$ git push origin master
