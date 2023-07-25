@@ -51,6 +51,7 @@
                             <label for="assigned_to" class="form-label">Assigned To</label>
                             <select class="form-select" id="assigned_to" name="assigned_to">
                                 <option value="">----Select User----</option>
+                                <option value="{{Auth::id()}}" {{$task->assigned_to == Auth::id() ? 'selected' : ''}}>{{Auth::user()->name}}</option>
                                 @if(!empty($users))
                                     @foreach($users->subusers as $key=>$value)
                                         <option value="{{$value->id}}" {{$task->assigned_to == $value->id ? 'selected' : ''}}>{{$value->name}}</option>

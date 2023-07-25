@@ -62,4 +62,9 @@ Route::get('addtask',[TaskController::class,'createTask'])->name('addtask');
 Route::post('storeTask',[TaskController::class,'storeTask'])->name('storeTask');
 Route::get('editTask/{id}',[TaskController::class,'editTask'])->name('editTask');
 Route::post('updateTask',[TaskController::class,'updateTask'])->name('updateTask');
+
+// assigned task
+Route::get('assignedTask',[TaskController::class,'assignedTask'])->name('assignedTask');
+Route::post('updateTaskStatus',[TaskController::class,'updateTaskStatus'])->name('updateTaskStatus');
+Route::post('deleteTask',[TaskController::class,'deleteTask'])->name('deleteTask');
 });

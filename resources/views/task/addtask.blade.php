@@ -46,11 +46,12 @@
                             <div class="quill-editor-default"></div>
                             <!-- End Quill Editor Default -->
                         </div>
-                        <input type="hidden" id="quill_html" name="description"></input>
+                        <input type="hidden" id="quill_html" name="description">
                         <div class="col-md-6 mt-5">
                             <label for="assigned_to" class="form-label">Assigned To</label>
                             <select class="form-select" id="assigned_to" name="assigned_to">
                                 <option value="">----Select User----</option>
+                                <option value="{{Auth::id()}}">{{Auth::user()->name}}</option>
                                 @if(!empty($users))
                                     @foreach($users->subusers as $key=>$value)
                                         <option value="{{$value->id}}">{{$value->name}}</option>

@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <!-- Table with stripped rows -->
-                    <table class="table table-striped datatable">
+                    <table class="table table-striped data-table">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -30,17 +30,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($permissions as $permission)
-                                <tr>
-                                    <th scope="row">{{ $permission->id }}</th>
-                                    <td>{{ $permission->title }}</td>
-                                    <td>{{ $permission->created_at }}</td>
-                                    <td>{{ $permission->updated_at }}</td>
-                                    <td>
-                                    @can('update-permission')<a href="{{ route('editPermission',array('id'=>$permission->id)) }}" class="btn btn-success"><i class="bi bi-pencil-fill"></i></a>@endcan</td>
-                                </tr>
-                            @empty
-                            @endforelse
                         </tbody>
                     </table>
                     <!-- End Table with stripped rows -->
@@ -49,3 +38,21 @@
         </div>
     </div>
 @endsection
+@push('custom_scripts')
+<script type="text/javascript">
+    $(function () {
+      var table = $('.data-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: "{{ route('permission') }}",
+          columns: [
+              {data: 'id', name: 'id'},
+              {data: 'title', name: 'title'},
+              {data: 'created_at', name: 'created_at'},
+              {data: 'updated_at', name: 'updated_at'},
+              {data: 'action', name: 'action', orderable: false, searchable: false},
+          ]
+      });
+    });
+  </script>
+@endpush

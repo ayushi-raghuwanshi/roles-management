@@ -61,6 +61,11 @@
                         <i class="bi bi-circle"></i><span>Tasks</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('assignedTask')}}">
+                        <i class="bi bi-circle"></i><span>Assigned Tasks</span>
+                    </a>
+                </li>
             </ul>
         </li>
         @endcan

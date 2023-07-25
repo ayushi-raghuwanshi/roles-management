@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'v10.2.5',
-        'version' => '10.2.5.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '8b67a597f57bfc7fc8bcf2ab7aa6d4b0791b246e',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -371,9 +371,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'v10.2.5',
-            'version' => '10.2.5.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '8b67a597f57bfc7fc8bcf2ab7aa6d4b0791b246e',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -724,8 +724,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1271,6 +1271,15 @@
             'reference' => '11cb2199493b2f8a3b53e7f19068fc6aac760991',
             'type' => 'library',
             'install_path' => __DIR__ . '/../webmozart/assert',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'yajra/laravel-datatables-oracle' => array(
+            'pretty_version' => 'v10.6.2',
+            'version' => '10.6.2.0',
+            'reference' => '6662926a7ac52cdf3d52508b0d4f6c41cc8618bf',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../yajra/laravel-datatables-oracle',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

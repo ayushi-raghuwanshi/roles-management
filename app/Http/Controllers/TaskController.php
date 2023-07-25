@@ -42,7 +42,41 @@ class TaskController extends Controller
     public function updateTask(UpdateTaskRequest $request)
     {
         unset($request['_token']);
-        Task::where('id',$request->id)->update($request->all());
+        $task = Task::where('id',$request->id)->update($request->all());
+        if(request()->ajax()){
+            return response()->json($task);
+        }
         return redirect()->route('task')->with('success','Task Updated Successfully');
+    }
+
+    public function assignedTask(Request $request)
+    {
+        if(request()->ajax()){
+            $tasks = Task::select('name as title','start_date as start','end_date as end','description','status','priority','id')->where('assigned_to',\Auth::id());
+            $tasks = $tasks->get();
+            return response()->json($tasks);
+        }
+        return view('task.assignedtasklist');
+    }
+
+    public function updateTaskStatus(Request $request)
+    {
+        $task = Task::find($request->id);
+        $task->status = $request->status;
+        $task->save();
+        $tasks = Task::select('name as title','start_date as start','end_date as end','description','status','priority','id')->where('assigned_to',\Auth::id());
+        $tasks = $tasks->get();
+        return response()->json($tasks);
+    }
+
+    public function deleteTask(Request $request)
+    {
+        $task = Task::find($request->id);
+        $task->deleted_at = date('Y-m-d H:i:s');
+        $task->save();
+        if(request()->ajax()){
+            return response()->json($task);
+        }
+        return to_route('task')->with('success','Task Deleted Successfully');
     }
 }

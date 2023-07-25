@@ -6,14 +6,28 @@ use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
+use Yajra\DataTables\Facades\Datatables;
 
 class PermissionController extends Controller
 {
     public function index()
     {
         abort_if(\Gate::denies('view-permission'),'403');
-        $permissions = Permission::get();
-        return view('permissions.permissionlist',compact('permissions'));
+        if (request()->ajax()) {
+            $data = Permission::take(10);
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '';
+                    if(\Gate::allows('update-permission')){
+                        $actionBtn = '<a href="'.route("editPermission",array("id"=>$row->id)).'" class="btn btn-success"><i class="bi bi-pencil-fill"></i></a>';
+                    }
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('permissions.permissionlist');
     }
 
     public function createPermission()

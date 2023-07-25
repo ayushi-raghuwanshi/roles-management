@@ -80,3 +80,13 @@ ex: git remote add origin https://github.com/youraccount/my-app.git
 $ git add .
 $ git commit -m "Initial Commit"
 $ git push origin master
+
+full-calander links
+https://webmobtuts.com/backend-development/implementing-crm-system-with-laravel-part-12-calendar-module/
+
+https://www.positronx.io/create-events-in-laravel-using-fullcalendar-and-jquery-ajax/
+
+set pagination in relationship
+$category = Category::where('slug', $slug)->first();
+
+$category->setRelation('lessons', $category->lesson()->paginate(10));
