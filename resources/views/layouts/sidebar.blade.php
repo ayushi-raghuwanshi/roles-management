@@ -69,6 +69,12 @@
             </ul>
         </li>
         @endcan
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('home')}}">
+                <i class="bi bi-grid"></i>
+                <span>Chat</span>
+            </a>
+        </li>
     </ul>
 
 </aside>

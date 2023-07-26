@@ -1,0 +1,7 @@
+1) install pusher via composer
+2) create app in pusher and get key from pusher and enable client side event in app seetings in pusher.
+3) refer this tutorial:
+https://www.youtube.com/watch?v=cPGhs94Rj5E
+https://github.com/samironbarai/laravel_chat
+https://pusher.com/docs/channels/getting_started/javascript/
+

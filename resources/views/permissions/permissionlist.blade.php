@@ -17,6 +17,9 @@
                         <div class="col-md-1 mt-3">
                             <a href="{{ route('createPermission') }}" class="btn btn-success"><i class="bi bi-plus"></i></a>
                         </div>
+                        <div class="col-4 mt-3">
+                            <input type="date" class="form-control" id="created_date" name="created_date">
+                        </div>
                     </div>
                     <!-- Table with stripped rows -->
                     <table class="table table-striped data-table">
@@ -39,20 +42,44 @@
     </div>
 @endsection
 @push('custom_scripts')
-<script type="text/javascript">
-    $(function () {
-      var table = $('.data-table').DataTable({
-          processing: true,
-          serverSide: true,
-          ajax: "{{ route('permission') }}",
-          columns: [
-              {data: 'id', name: 'id'},
-              {data: 'title', name: 'title'},
-              {data: 'created_at', name: 'created_at'},
-              {data: 'updated_at', name: 'updated_at'},
-              {data: 'action', name: 'action', orderable: false, searchable: false},
-          ]
-      });
-    });
-  </script>
+    <script type="text/javascript">
+        $(function() {
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{route('permission')}}",
+                    data: function(d){
+                        d.created_date = $("#created_date").val()
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'updated_at',
+                        name: 'updated_at'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+            $("#created_date").change(function() {
+                table.draw();
+            });
+        });
+    </script>
 @endpush

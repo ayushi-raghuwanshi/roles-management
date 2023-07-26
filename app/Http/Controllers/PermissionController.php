@@ -14,9 +14,14 @@ class PermissionController extends Controller
     {
         abort_if(\Gate::denies('view-permission'),'403');
         if (request()->ajax()) {
-            $data = Permission::take(10);
+            $data = Permission::query();
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->filter(function($query){
+                    if(request()->has('created_date') && !empty(request()->get('created_date'))){
+                        $query->whereDate('created_at',request()->get('created_date'));
+                    }
+                })
                 ->addColumn('action', function($row){
                     $actionBtn = '';
                     if(\Gate::allows('update-permission')){

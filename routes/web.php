@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -67,4 +68,11 @@ Route::post('updateTask',[TaskController::class,'updateTask'])->name('updateTask
 Route::get('assignedTask',[TaskController::class,'assignedTask'])->name('assignedTask');
 Route::post('updateTaskStatus',[TaskController::class,'updateTaskStatus'])->name('updateTaskStatus');
 Route::post('deleteTask',[TaskController::class,'deleteTask'])->name('deleteTask');
+
+// chat route
+Route::get('/home', [ChatController::class,'index'])->name('home');
+Route::get('/message/{id}', [ChatController::class,'getMessage'])->name('message');
+Route::post('message', [ChatController::class,'sendMessage']);
+
+Route::get('/chat', [ChatController::class,'chat'])->name('chat');
 });
