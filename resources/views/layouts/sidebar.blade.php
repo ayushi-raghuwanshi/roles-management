@@ -70,8 +70,8 @@
         </li>
         @endcan
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{route('home')}}">
-                <i class="bi bi-grid"></i>
+            <a class="nav-link collapsed" href="{{route('chat')}}">
+                <i class="bi bi-chat-left-dots"></i>
                 <span>Chat</span>
             </a>
         </li>

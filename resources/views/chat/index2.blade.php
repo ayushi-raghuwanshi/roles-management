@@ -47,7 +47,7 @@
         }
 
         .recent_heading h4 {
-            color: #05728f;
+            color: #eff3f4;
             font-size: 21px;
             margin: auto;
         }
@@ -85,7 +85,7 @@
 
         .chat_ib p {
             font-size: 14px;
-            color: #989898;
+            color: #f3e8e8;
             margin: auto
         }
 
@@ -106,7 +106,7 @@
         }
 
         .chat_list {
-            border-bottom: 1px solid #c4c4c4;
+            border-bottom: 1px solid #9beaf4;
             margin: 0;
             padding: 18px 16px 10px;
         }
@@ -114,10 +114,12 @@
         .inbox_chat {
             height: 550px;
             overflow-y: scroll;
+            background-color: #c1f1be;
+            background-image: url({{asset('assets/img/chat_users.jpg')}})
         }
 
         .active_chat {
-            background: #ebebeb;
+            background: #64d2a0;
         }
 
         .incoming_msg_img {
@@ -143,10 +145,11 @@
         }
 
         .time_date {
-            color: #747474;
+            color: #e5e2e2;
             display: block;
             font-size: 12px;
             margin: 8px 0 0;
+            font-weight: bold;
         }
 
         .received_withd_msg {
@@ -160,7 +163,7 @@
         }
 
         .sent_msg p {
-            background: #05728f none repeat scroll 0 0;
+            background: #145060 none repeat scroll 0 0;
             border-radius: 3px;
             font-size: 14px;
             margin: 0;
@@ -219,171 +222,57 @@
 @endsection
 @section('section')
     <div class="messaging">
-        <div class="inbox_msg">
+        <div class="inbox_msg" style="background-image: url({{asset('assets/img/chat_img.jpg')}});background-repeat:no-repeat;background-size:cover;">
             <div class="inbox_people">
-                <div class="headind_srch">
+                <div class="headind_srch" style="background-color:#0d5d72">
                     <div class="recent_heading">
                         <h4>Users</h4>
                     </div>
                     <div class="srch_bar">
                         <div class="stylish-input-group">
-                            <input type="text" class="search-bar" placeholder="Search">
+                            <input type="text" class="search-bar" placeholder="Search" style="background-color: white">
                             <span class="input-group-addon">
                                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="inbox_chat">
-                    <div class="chat_list active_chat">
+                <div class="inbox_chat infinite-scroll">
+                    @forelse($users->subusers as $user)
+                    <div class="chat_list user" id="{{ $user->id }}">
                         <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
+                            <div class="chat_img"> <img src="https://eu.ui-avatars.com/api/?name={{$user->name}}&background=random&rounded=true"
+                                    alt="{{$user->name}}"> </div>
                             <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="badge bg-secondary text-light">4</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
+                                <h5 style="color:#f3e8e8">{{$user->name}}
+                                    @if($user->messages_count)
+                                    <span class="badge bg-secondary text-light pending">{{$user->messages_count}}</span>
+                                    @endif
+                                </h5>
+                                <p>{{ $user->email }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                    alt="sunil"> </div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
+                    @empty
+                        <h5>No Users Assigned!</h5>
+                    @endforelse
+                    {{-- {!! $users->subusers->links('pagination::bootstrap-5')!!} --}}
                 </div>
             </div>
-            <div class="mesgs" style="background-color: white">
-                <div class="msg_history">
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                alt="sunil"> </div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
-                                <p>Test which is a new approach to have all
-                                    solutions</p>
-                                <span class="time_date"> 11:01 AM | June 9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                            <span class="time_date"> 11:01 AM | June 9</span>
-                        </div>
-                    </div>
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                alt="sunil"> </div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
-                                <p>Test, which is a new approach to have</p>
-                                <span class="time_date"> 11:01 AM | Yesterday</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Apollo University, Delhi, India Test</p>
-                            <span class="time_date"> 11:01 AM | Today</span>
-                        </div>
-                    </div>
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
-                                alt="sunil"> </div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
-                                <p>We work directly with our designers and suppliers,
-                                    and sell direct to you, which means quality, exclusive
-                                    products, at a price anyone can afford.</p>
-                                <span class="time_date"> 11:01 AM | Today</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="type_msg">
-                    <div class="input_msg_write">
-                        <input type="text" class="write_msg" placeholder="Type a message" />
-                        <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
-                                aria-hidden="true"></i></button>
-                    </div>
-                </div>
-            </div>
+            <div class="mesgs"></div>
         </div>
-
-
     </div>
 @endsection
 @push('custom_scripts')
 <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{asset('js/jquery.jscroll.min.js')}}"></script>
 
 <script>
     var receiver_id = '';
     var my_id = "{{ Auth::id() }}";
     $(document).ready(function () {
+
         // ajax setup form csrf token
         $.ajaxSetup({
             headers: {
@@ -421,8 +310,8 @@
         });
 
         $('.user').click(function () {
-            $('.user').removeClass('active');
-            $(this).addClass('active');
+            $('.user').removeClass('active_chat');
+            $(this).addClass('active_chat');
             $(this).find('.pending').remove();
 
             receiver_id = $(this).attr('id');
@@ -432,15 +321,14 @@
                 data: "",
                 cache: false,
                 success: function (data) {
-                    $('#messages').html(data);
+                    $('.mesgs').html(data);
                     scrollToBottomFunc();
                 }
             });
         });
 
-        $(document).on('keyup', '.input-text input', function (e) {
+        $(document).on('keyup', '.write_msg', function (e) {
             var message = $(this).val();
-
             // check if enter key is pressed and message is not null also receiver is selected
             if (e.keyCode == 13 && message != '' && receiver_id != '') {
                 $(this).val(''); // while pressed enter text box will be empty
@@ -464,11 +352,24 @@
         });
     });
 
+
     // make a function to scroll down auto
     function scrollToBottomFunc() {
-        $('.message-wrapper').animate({
-            scrollTop: $('.message-wrapper').get(0).scrollHeight
+        $('.msg_history').animate({
+            scrollTop: $('.msg_history').get(0).scrollHeight
         }, 50);
     }
+
+    // $('ul.pagination').hide();
+    // $('.infinite-scroll').jscroll({
+    //         autoTrigger: true,
+    //         loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+    //         padding: 0,
+    //         nextSelector: '.pagination li.active + li a',
+    //         contentSelector: 'div.infinite-scroll',
+    //         callback: function() {
+    //             $('ul.pagination').remove();
+    //         }
+    //     });
 </script>
 @endpush

@@ -70,9 +70,7 @@ Route::post('updateTaskStatus',[TaskController::class,'updateTaskStatus'])->name
 Route::post('deleteTask',[TaskController::class,'deleteTask'])->name('deleteTask');
 
 // chat route
-Route::get('/home', [ChatController::class,'index'])->name('home');
+Route::get('/chat', [ChatController::class,'index'])->name('chat');
 Route::get('/message/{id}', [ChatController::class,'getMessage'])->name('message');
 Route::post('message', [ChatController::class,'sendMessage']);
-
-Route::get('/chat', [ChatController::class,'chat'])->name('chat');
 });
