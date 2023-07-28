@@ -1,5 +1,4 @@
-<div class="msg_history scrolling-pagination" style="background-image: url({{url('assets/img/chat_img.jpg')}})">
-    @foreach($messages as $message)
+@foreach($messages as $message)
     <div class="{{ ($message->from == Auth::id()) ? 'outgoing_msg' : 'incoming_msg' }}">
         <div class="incoming_msg_img"> <img src="https://eu.ui-avatars.com/api/?name={{$message->user->name}}&background=random&rounded=true"
                 alt="sunil"> </div>
@@ -10,11 +9,10 @@
             </div>
         </div>
     </div>
-    @endforeach
-</div>
-<div class="type_msg">
-    <div class="input_msg_write" style="background-color: white;">
-        <input type="text" class="write_msg" placeholder="Type a message" />
-    </div>
-</div>
+@endforeach
+{{-- <div class="d-none">
+    {!! $messages->links('pagination::bootstrap-5')!!}
+</div> --}}
+
+
 

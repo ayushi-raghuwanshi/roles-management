@@ -237,42 +237,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="inbox_chat infinite-scroll">
-                    @forelse($users->subusers as $user)
-                    <div class="chat_list user" id="{{ $user->id }}">
-                        <div class="chat_people">
-                            <div class="chat_img"> <img src="https://eu.ui-avatars.com/api/?name={{$user->name}}&background=random&rounded=true"
-                                    alt="{{$user->name}}"> </div>
-                            <div class="chat_ib">
-                                <h5 style="color:#f3e8e8">{{$user->name}}
-                                    @if($user->messages_count)
-                                    <span class="badge bg-secondary text-light pending">{{$user->messages_count}}</span>
-                                    @endif
-                                </h5>
-                                <p>{{ $user->email }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                        <h5>No Users Assigned!</h5>
-                    @endforelse
-                    {{-- {!! $users->subusers->links('pagination::bootstrap-5')!!} --}}
+                <div class="inbox_chat" id="messagesdiv">
+                    @include('chat.usersdiv')
                 </div>
             </div>
-            <div class="mesgs"></div>
+            <div class="mesgs">
+                <div class="msg_history scrolling-pagination" style="background-image: url({{url('assets/img/chat_img.jpg')}})"></div>
+                <div class="type_msg">
+                    <div class="input_msg_write" style="background-color: white;">
+                        <input type="text" class="write_msg" placeholder="Type a message" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @push('custom_scripts')
 <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="{{asset('js/jquery.jscroll.min.js')}}"></script>
 
 <script>
     var receiver_id = '';
     var my_id = "{{ Auth::id() }}";
     $(document).ready(function () {
 
+        $(".type_msg").hide();
         // ajax setup form csrf token
         $.ajaxSetup({
             headers: {
@@ -309,23 +298,52 @@
             }
         });
 
-        $('.user').click(function () {
+        let page = 1;
+        let total_page = 0;
+        $('.mesgs .msg_history').on('scroll', function() {
+            if($(this).scrollTop() + $(this).innerHeight() + 1 >= $(this)[0].scrollHeight) {
+                if(page<total_page){
+                    page++;
+                    infinteLoadMore(page);
+                }
+            }
+        });
+        $("#messagesdiv").on("click",".user", function(){
             $('.user').removeClass('active_chat');
             $(this).addClass('active_chat');
             $(this).find('.pending').remove();
-
             receiver_id = $(this).attr('id');
             $.ajax({
                 type: "get",
-                url: "message/" + receiver_id, // need to create this route
+                url: "message/" + receiver_id+"?page=" + 1, // need to create this route
                 data: "",
                 cache: false,
                 success: function (data) {
-                    $('.mesgs').html(data);
+                    $('.mesgs .msg_history').html(data.view);
+                    $(".type_msg").show();
+                    total_page = data.total_pages;
                     scrollToBottomFunc();
                 }
             });
         });
+
+        function infinteLoadMore(page) {
+            $.ajax({
+                type: "get",
+                datatype: "html",
+                url: "message/" + receiver_id+"?page=" + page, // need to create this route
+                data: "",
+                cache: false,
+                success: function (data) {
+                    if (data.view.length != 0) {
+                        $('.mesgs .msg_history').append(data.view);
+                        $(".type_msg").show();
+                        scrollToBottomFunc();
+                    }
+                    return;
+                }
+            });
+        }
 
         $(document).on('keyup', '.write_msg', function (e) {
             var message = $(this).val();
@@ -345,14 +363,13 @@
                     error: function (jqXHR, status, err) {
                     },
                     complete: function () {
+                        page = '';
                         scrollToBottomFunc();
                     }
                 })
             }
         });
     });
-
-
     // make a function to scroll down auto
     function scrollToBottomFunc() {
         $('.msg_history').animate({
@@ -360,16 +377,27 @@
         }, 50);
     }
 
-    // $('ul.pagination').hide();
-    // $('.infinite-scroll').jscroll({
-    //         autoTrigger: true,
-    //         loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
-    //         padding: 0,
-    //         nextSelector: '.pagination li.active + li a',
-    //         contentSelector: 'div.infinite-scroll',
-    //         callback: function() {
-    //             $('ul.pagination').remove();
-    //         }
-    //     });
+    let nextUserPageUrl = '{{ $users->subusers->nextPageUrl() }}';
+    $('.inbox_chat').scroll(function () {
+        if (nextUserPageUrl) {
+            loadMoreUsers();
+        }
+    });
+    function loadMoreUsers() {
+        $.ajax({
+            url: nextUserPageUrl,
+            type: 'get',
+            beforeSend: function () {
+                nextUserPageUrl = '';
+            },
+            success: function (data) {
+                nextUserPageUrl = data.nextPageUrl;
+                $('#messagesdiv').append(data.view);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading more users:", error);
+            }
+        });
+    }
 </script>
 @endpush

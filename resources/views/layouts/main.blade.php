@@ -90,7 +90,7 @@
   <script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
   <!-- Template Main JS File -->
   <script src="{{asset('assets/js/main.js')}}"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
   @stack('custom_scripts')

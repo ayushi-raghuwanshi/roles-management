@@ -8,6 +8,7 @@ use Pusher\Pusher;
 use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ChatController extends Controller
 {
@@ -19,24 +20,26 @@ class ChatController extends Controller
         // where users.id != " . Auth::id() . "
         // group by users.id, users.name, users.avatar, users.email");
 
-        $users = User::where('id','=',Auth::id());
-        $users = $users->with(['subusers'=>function($query){
-            $query->withCount(['messages'=>function($query2){
+        // $users = User::where('id','=',Auth::id());
+        // $users = $users->with(['subusers'=>function($query){
+        //     $query->withCount(['messages'=>function($query2){
+        //         $query2->where('is_read',0);
+        //         $query2->where('to',Auth::id());
+        //     }]);
+        // }]);
+        // $users = $users->first();
+
+        $users = User::where('id','=',Auth::id())->first();
+        $users->setRelation('subusers',
+            $users->subusers()->withCount(['messages'=>function($query2){
                 $query2->where('is_read',0);
                 $query2->where('to',Auth::id());
-            }]);
-        }]);
-        $users = $users->first();
-
-        // $users = User::where('id','=',Auth::id())->first();
-        // $users->setRelation('subusers',
-        //     $users->subusers()->withCount(['messages'=>function($query2){
-        //                 $query2->where('is_read',0);
-        //                 $query2->where('to',Auth::id());
-        //             }])
-        //             ->paginate(7)
-        // );
-
+            }])->paginate(8)
+        );
+        if (request()->ajax()) {
+            $view = view('chat.usersdiv', compact('users'))->render();
+            return response()->json(['view' => $view, 'nextPageUrl' => $users->subusers->nextPageUrl()]);
+        }
         return view('chat.index2', ['users' => $users]);
     }
 
@@ -52,8 +55,9 @@ class ChatController extends Controller
             $query->where('from', $user_id)->where('to', $my_id);
         })->oRwhere(function ($query) use ($user_id, $my_id) {
             $query->where('from', $my_id)->where('to', $user_id);
-        })->get();
-        return view('chat.messages2', ['messages' => $messages]);
+        })->paginate(8);
+        $view  = view('chat.messages2', ['messages' => $messages])->render();
+        return response()->json(['view'=>$view,'total_pages'=>$messages->lastPage()]);
     }
 
     public function sendMessage(Request $request)
