@@ -394,7 +394,9 @@
                     error: function (jqXHR, status, err) {
                     },
                     complete: function () {
-                        page = '';
+                        current_page_url = '';
+                        page = 1;
+                        total_page = 0;
                         scrollToBottomFunc();
                     }
                 })
