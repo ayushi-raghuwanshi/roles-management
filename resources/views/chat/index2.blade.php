@@ -242,7 +242,11 @@
                 </div>
             </div>
             <div class="mesgs">
+                <div class="spinner-border" role="status" style="margin-left: 50%;" id="ajax_loader">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
                 <div class="msg_history scrolling-pagination" style="background-image: url({{url('assets/img/chat_img.jpg')}})"></div>
+
                 <div class="type_msg">
                     <div class="input_msg_write" style="background-color: white;">
                         <input type="text" class="write_msg" placeholder="Type a message" />
@@ -260,7 +264,7 @@
     var receiver_id = '';
     var my_id = "{{ Auth::id() }}";
     $(document).ready(function () {
-
+        $('#ajax_loader').hide();
         $(".type_msg").hide();
         // ajax setup form csrf token
         $.ajaxSetup({
@@ -300,11 +304,23 @@
 
         let page = 1;
         let total_page = 0;
+        let current_page_url = '';
         $('.mesgs .msg_history').on('scroll', function() {
-            if($(this).scrollTop() + $(this).innerHeight() + 1 >= $(this)[0].scrollHeight) {
-                if(page<total_page){
-                    page++;
-                    infinteLoadMore(page);
+            // if($(this).scrollTop() + $(this).innerHeight() + 1 == $(this)[0].scrollHeight) {
+            //     alert("hello");
+            //     if(page<total_page){
+            //         page++;
+            //         infinteLoadMore(page);
+            //     }
+            // }
+
+            if($(this).scrollTop() == 0){
+                if(total_page != 0 && page<=total_page){
+                    page+= 1;
+                    infinteLoadMore(current_page_url+page);
+                    $('.msg_history').animate({
+                        scrollTop: 10
+                    }, 50);
                 }
             }
         });
@@ -315,32 +331,47 @@
             receiver_id = $(this).attr('id');
             $.ajax({
                 type: "get",
-                url: "message/" + receiver_id+"?page=" + 1, // need to create this route
+                url: "message/" + receiver_id, // need to create this route
                 data: "",
                 cache: false,
+                beforeSend: function() {
+                    $('#ajax_loader').show();
+                    current_page_url = '';
+                    page = 1;
+                    total_page = 0;
+                },
                 success: function (data) {
+                    $('#ajax_loader').hide();
                     $('.mesgs .msg_history').html(data.view);
                     $(".type_msg").show();
+                    let current_url = {!! json_encode( url('/')); !!};
                     total_page = data.total_pages;
+                    current_page_url = current_url+'/message/'+receiver_id+'?page=';
                     scrollToBottomFunc();
                 }
             });
         });
 
-        function infinteLoadMore(page) {
+        function infinteLoadMore(page_url) {
             $.ajax({
                 type: "get",
                 datatype: "html",
-                url: "message/" + receiver_id+"?page=" + page, // need to create this route
+                url: page_url, // need to create this route
                 data: "",
                 cache: false,
+                beforeSend: function() {
+                    $('#ajax_loader').show();
+                },
                 success: function (data) {
+                    $('#ajax_loader').hide();
                     if (data.view.length != 0) {
-                        $('.mesgs .msg_history').append(data.view);
+                        $('.mesgs .msg_history').prepend(data.view);
                         $(".type_msg").show();
-                        scrollToBottomFunc();
+                        //scrollToBottomFunc();
+                    }else{
+                        total_page = 0;
+                        return;
                     }
-                    return;
                 }
             });
         }

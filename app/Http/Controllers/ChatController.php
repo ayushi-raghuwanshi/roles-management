@@ -55,8 +55,9 @@ class ChatController extends Controller
             $query->where('from', $user_id)->where('to', $my_id);
         })->oRwhere(function ($query) use ($user_id, $my_id) {
             $query->where('from', $my_id)->where('to', $user_id);
-        })->paginate(8);
-        $view  = view('chat.messages2', ['messages' => $messages])->render();
+        })->latest('id')->paginate(8);
+        $latest_messages = array_reverse($messages->items());
+        $view  = view('chat.messages2', ['messages' => $latest_messages])->render();
         return response()->json(['view'=>$view,'total_pages'=>$messages->lastPage()]);
     }
 

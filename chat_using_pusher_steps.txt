@@ -5,3 +5,65 @@ https://www.youtube.com/watch?v=cPGhs94Rj5E
 https://github.com/samironbarai/laravel_chat
 https://pusher.com/docs/channels/getting_started/javascript/
 
+logic for pagination in chat:
+get latest message data by id and paginate data.
+->latest('id')->paginate(8);
+reverse data
+array_reverse($messages->items())
+pass total page data in first ajax Call
+'total_pages'=>$messages->lastPage()
+initialize variables in javascript
+let page = 1;
+let total_page = 0;
+let current_page_url = '';
+
+at first time ajax call when user clicks on particular person name for chat:
+ beforeSend: function() {
+                    $('#ajax_loader').show();
+                    current_page_url = '';
+                    page = 1;
+                    total_page = 0;
+                },
+before ajax call initialize variables again
+on success:
+    let current_url = {!! json_encode( url('/')); !!};
+    total_page = data.total_pages;
+    current_page_url = current_url+'/message/'+receiver_id+'?page=';
+
+on scroll of message div
+    check if scroll is at top like:  if($(this).scrollTop() == 0)
+    then check total_page != 0 && page<=total_page
+    if($(this).scrollTop() == 0){
+        if(total_page != 0 && page<=total_page){
+            page+= 1;
+            infinteLoadMore(current_page_url+page);
+            $('.msg_history').animate({
+                scrollTop: 10
+            }, 50);
+        }
+    }
+
+infinteLoadMore: on ajax call:
+function infinteLoadMore(page_url) {
+            $.ajax({
+                type: "get",
+                datatype: "html",
+                url: page_url, // need to create this route
+                data: "",
+                cache: false,
+                beforeSend: function() {
+                    $('#ajax_loader').show();
+                },
+                success: function (data) {
+                    $('#ajax_loader').hide();
+                    if (data.view.length != 0) {
+                        $('.mesgs .msg_history').prepend(data.view);
+                        $(".type_msg").show();
+                        //scrollToBottomFunc();
+                    }else{
+                        total_page = 0;
+                        return;
+                    }
+                }
+            });
+        }
